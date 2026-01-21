@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const {check} = require('express-validator');
-const { validateFields } = require('../middlewares/validate-fields');
 const { validateRol, validateEmail, userExistById } = require('../helpers/db-validators');
 
 const { usersGet,
@@ -10,13 +9,18 @@ const { usersGet,
     usersPatch
  } = require('../controllers/users');
  
+const { validateFields, validateJWT, validateAdminRole, haveRole} = require('../middlewares'); //esto llama a /middlewares/index.js
 
 const router = Router();
 
-
+//--------------------------------------
 
 
 router.get('/', usersGet );
+
+
+
+
 
 
 
@@ -55,11 +59,30 @@ router.put('/:id', [
 
 
 
-
+/*
+//Esto de verdad elimina un usuario
 router.delete('/:id', [
     check('id', 'Invalid ID').isMongoId(),
     check('id').custom(userExistById),
     validateFields
+],usersDelete);
+
+*/
+
+//muestra el usuario despues de las validaciones con middlewares
+router.delete('/:id', [
+    validateJWT,                //el orden de los middlewares es el orden en el que se ejecutan en el sistema
+    
+    //validateAdminRole,   //este middleware  fuerza que el usuario tenga que ser admin
+    
+    haveRole('ADMIN_ROLE', 'VENTAS_ROLE'),   //este mdw fuerza que tenga que ser uno de estos roles
+    
+    check('id', 'error').isMongoId(),
+    
+    check('id','error').custom(userExistById),
+    
+    validateFields
+
 ],usersDelete);
 
 
@@ -67,12 +90,7 @@ router.delete('/:id', [
 
 
 
-
-router.patch('/', usersPatch);
-
-
-
-
+router.patch('/:id', usersPatch);
 
 
 

@@ -43,7 +43,9 @@ const UserSchema = Schema({
 
 //ocultar contraseña para ello sobreescribimos el json que se manda con el objeto usuario
 UserSchema.methods.toJSON = function() {
-    const { __v, password, ...user} = this.toObject();
+    
+    const { __v, password, _id, ...user} = this.toObject();
+    user.uid = _id;  //convertimos _id en uid
     return user;
 }
 

@@ -25,7 +25,7 @@ const userExistById = async(id) =>{
 
     const userExists = await User.findById(id);
     if(!userExists){
-        throw new Error(`El id no existe: ${id}`);
+        throw new Error(`El id doesnt exist: ${id}`);
     }
 }
 

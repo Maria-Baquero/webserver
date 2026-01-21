@@ -97,9 +97,10 @@ const usersPut = async(req, res = response) => {
 
 
 
-const usersPatch = (req, res = response) => {
+const usersPatch = async(req = request, res = response) => {
+
     res.json({
-        msg: 'patch API - controller'
+        msg: 'patch API - controller',
     });
 }
 
@@ -108,6 +109,7 @@ const usersPatch = (req, res = response) => {
 
 
 //Eliminar usuarios
+/*
 const usersDelete = async(req, res = response) => {
     const {id} = req.params;
 
@@ -117,7 +119,17 @@ const usersDelete = async(req, res = response) => {
         id
     });
 }
+*/
 
+const usersDelete = async(req, res = response) => {
+    const {id} = req.params;
+
+    const user = await User.findByIdAndUpdate(id, {status: false});
+
+    const userAuth = req.user;
+
+    res.json({user});
+}
 
 
 
