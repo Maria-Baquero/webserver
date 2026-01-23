@@ -3,75 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sign-In</title>
+    <title>Document</title>
 </head>
 <body>
-    <!-- Google sign-in (cloud identity), pero no tengo cuenta-->
-    <h1>Google Sign-in</h1>
-    <hr>
-
-    <div id="g_id_onload"
-        data-client_id= "983756423744-i57usv63b4b34sl1b9eo9137q3gin85n.apps.googleusercontent.com"
-        data-auto-prompt="false"
-        data-callback="handleCredentialResponse"
-        data-auto_select="false">
-    </div>
-    <div class="g_id_signin"
-        data-type="standard"
-        data-size="large"
-        data-theme="outline"
-        data-text="sign_in_with"
-        data-shape="rectangular"
-        data-logo_alignment="left">
-    </div>
-
-    <button id="google_signout">
-        SignOut
-    </button>
-
-
-
-
-    <script>
-        function handleCredentialResponse(response){
-
-            const body = {id_token: response.credential};
-
-            fetch('http://localhost:8080/api/auth/google', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(body)
-            })
-                .then(resp => resp.json())
-                .then(resp => {
-                    console.log(resp)
-                    localStorage.setItem('email', resp.user.email)
-                })
-                .catch(console.warn);
-        }
-
-
-
-
-        const button = document.getElementById('google_signout');
-
-        button.onclick = () => {
-
-            google.accounts.id.disableAutoSelect(),
-
-            localStorage.clear();
-            location.reload();
-            
-        }
-    </script>
-
-
-
-
-
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-
+    <h1>Access denied</h1>
 </body>
 </html>
